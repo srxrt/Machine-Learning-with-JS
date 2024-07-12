@@ -1,9 +1,9 @@
 class Sensor {
 	constructor(car) {
 		this.car = car;
-		this.rayCount = 5;
+		this.rayCount = 10;
 		this.rayLength = 150;
-		this.raySpread = Math.PI / 4;
+		this.raySpread = Math.PI / 2;
 
 		this.rays = [];
 		this.readings = [];
@@ -56,27 +56,31 @@ class Sensor {
 			return null;
 		} else {
 			const offsets = touches.map((e) => e.offset);
-			const minOffset = Min.min(...offsets);
+			const minOffset = Math.min(...offsets);
 			return touches.find((e) => e.offset == minOffset);
 		}
 	}
 
 	draw(ctx) {
-		console.log(this.rays);
-		for (let i = 0; i < this.rayCount; i++) {
-			let end = this.rays[i][1];
+		this.rays.forEach((ray, i) => {
+			let end = ray[1];
 			if (this.readings[i]) {
 				end = this.readings[i];
 			}
 
-			let begin = this.rays[i][0];
-
 			ctx.beginPath();
 			ctx.lineWidth = 2;
 			ctx.strokeStyle = "yellow";
-			ctx.moveTo(begin.x, begin.y);
+			ctx.moveTo(ray[0].x, ray[0].y);
 			ctx.lineTo(end.x, end.y);
 			ctx.stroke();
-		}
+
+			ctx.beginPath();
+			ctx.lineWidth = 2;
+			ctx.strokeStyle = "black";
+			ctx.moveTo(ray[1].x, ray[1].y);
+			ctx.lineTo(end.x, end.y);
+			ctx.stroke();
+		});
 	}
 }
