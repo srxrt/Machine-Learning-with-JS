@@ -36,3 +36,9 @@ function polysIntersect(poly1, poly2) {
 
 	return false;
 }
+
+function getRGBA(a) {
+	if (a) {
+		return "yellow";
+	}
+}
